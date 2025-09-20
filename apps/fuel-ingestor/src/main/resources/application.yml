@@ -38,7 +38,7 @@ ingestor:
     timeout-ms: ${SOURCE_TIMEOUT_MS:10000}
     user-agent: ${SOURCE_USER_AGENT:fuel-ingestor/1.0}
     api-key: ${SOURCE_API_KEY:}
-    max-size-in-mb: ${SOURCE_MAX_SIZE_MB:50}
+    max-size-in-mb: ${SOURCE_MAX_SIZE_MB:100}
   schedule:
     cron: ${INGEST_CRON:0 */5 * * * *}
   topics:
