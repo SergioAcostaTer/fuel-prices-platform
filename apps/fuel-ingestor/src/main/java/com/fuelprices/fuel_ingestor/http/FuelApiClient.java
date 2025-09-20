@@ -22,6 +22,10 @@ public class FuelApiClient {
         .uri("/")
         .accept(MediaType.APPLICATION_JSON)
         .retrieve()
-        .bodyToMono(FuelApiResponse.class);
+        .bodyToMono(FuelApiResponse.class)
+        .retryWhen(
+            reactor.util.retry.Retry.backoff(3, java.time.Duration.ofSeconds(2))
+                .filter(ex -> !(ex instanceof java.net.UnknownHostException)));
   }
+
 }

@@ -1,5 +1,7 @@
 package com.fuelprices.fuel_ingestor.model.external.response;
 
+import java.time.OffsetDateTime;
+
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -131,4 +133,6 @@ public class FuelStationDto {
 
   @JsonAlias("IDCCAA")
   private String regionId;
+
+  private OffsetDateTime timestamp;
 }
