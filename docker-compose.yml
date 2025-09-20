@@ -4,7 +4,7 @@ services:
     container_name: kafka
     ports:
       - "9092:9092"   # internal listener (containers use kafka:9092)
-      - "9094:9094"   # host listener (IDE uses localhost:9094)
+      - "9094:9094"   # host listener (tools/IDE on localhost:9094)
     environment:
       KAFKA_ENABLE_KRAFT: "yes"
       KAFKA_CFG_NODE_ID: "1"
@@ -65,5 +65,34 @@ services:
       --topic prices.dlq --partitions 3 --config retention.ms=2592000000
     restart: "no"
 
+  fuel-ingestor:
+    build:
+      context: .
+      dockerfile: apps/fuel-ingestor/Dockerfile
+    container_name: fuel-ingestor
+    depends_on:
+      kafka:
+        condition: service_healthy
+      topic-init:
+        condition: service_completed_successfully
+    environment:
+      KAFKA_BOOTSTRAP: kafka:9092
+      KAFKA_CLIENT_ID: fuel-ingestor
+      SERVER_PORT: "8081"
+      MANAGEMENT_PORT: "8081"
+      INGEST_CRON: "0 */1 * * * *"
+      SOURCE_BASE_URL: "https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/"
+      SOURCE_TIMEOUT_MS: "10000"
+      SOURCE_USER_AGENT: "fuel-ingestor/1.0"
+      SOURCE_MAX_SIZE_MB: "100"
+      TOPIC_PRICES_RAW: "prices.raw"
+      TOPIC_STATIONS_RAW: "stations.raw"
+      TOPIC_DLQ: "prices.dlq"
+      LOG_LEVEL: INFO
+      SPRING_SSL_BUNDLE_PEM_MINETUR_TRUSTSTORE_CERTIFICATE: ""
+    ports:
+      - "8081:8081"
+
 volumes:
   kafka-data:
+  gradle-cache:
