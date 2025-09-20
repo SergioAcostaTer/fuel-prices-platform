@@ -80,7 +80,7 @@ services:
       KAFKA_CLIENT_ID: fuel-ingestor
       SERVER_PORT: "8081"
       MANAGEMENT_PORT: "8081"
-      INGEST_CRON: "0 */1 * * * *"
+      INGEST_CRON: "0 0 * * * *"
       SOURCE_BASE_URL: "https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/"
       SOURCE_TIMEOUT_MS: "10000"
       SOURCE_USER_AGENT: "fuel-ingestor/1.0"
