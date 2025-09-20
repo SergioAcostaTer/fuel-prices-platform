@@ -20,16 +20,17 @@ public class WebClientConfig {
 
   @Bean
   WebClient fuelWebClient(IngestorProps props) {
+    var source = props.source;
     var httpClient = HttpClient.create()
-        .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, props.source.timeoutMs)
-        .responseTimeout(Duration.ofMillis(props.source.timeoutMs))
+        .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, source.timeoutMs)
+        .responseTimeout(Duration.ofMillis(source.timeoutMs))
         .doOnConnected(conn -> conn
-            .addHandlerLast(new ReadTimeoutHandler(props.source.timeoutMs, TimeUnit.MILLISECONDS))
-            .addHandlerLast(new WriteTimeoutHandler(props.source.timeoutMs, TimeUnit.MILLISECONDS)));
+            .addHandlerLast(new ReadTimeoutHandler(source.timeoutMs, TimeUnit.MILLISECONDS))
+            .addHandlerLast(new WriteTimeoutHandler(source.timeoutMs, TimeUnit.MILLISECONDS)));
 
     return WebClient.builder()
-        .baseUrl(props.source.baseUrl)
-        .defaultHeader("User-Agent", props.source.userAgent)
+        .baseUrl(source.baseUrl)
+        .defaultHeader("User-Agent", source.userAgent)
         .clientConnector(new ReactorClientHttpConnector(httpClient))
         .build();
   }

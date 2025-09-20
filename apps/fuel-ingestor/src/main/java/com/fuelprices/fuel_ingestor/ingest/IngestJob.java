@@ -2,7 +2,6 @@ package com.fuelprices.fuel_ingestor.ingest;
 
 import java.net.URI;
 
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
-@EnableScheduling
 @RequiredArgsConstructor
 @Slf4j
 public class IngestJob {
@@ -21,7 +19,7 @@ public class IngestJob {
   private final FuelApiClient api;
   private final IngestorProps props;
 
-  @Scheduled(cron = "${ingestor.schedule.cron}")
+  @Scheduled(cron = "0 * * * * *")
   public void runOnce() {
     var result = api.fetchRaw().block();
 
