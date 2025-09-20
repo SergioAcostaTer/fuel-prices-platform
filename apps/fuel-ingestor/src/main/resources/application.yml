@@ -6,7 +6,6 @@ spring:
     bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost:9092}
     client-id: ${KAFKA_CLIENT_ID:fuel-ingestor}
     properties:
-      # SASL/TLS configurable by envs below (optional)
       security.protocol: ${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}
       sasl.mechanism: ${KAFKA_SASL_MECHANISM:}
       sasl.jaas.config: ${KAFKA_SASL_JAAS:}
