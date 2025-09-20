@@ -28,6 +28,14 @@ build:
 	@echo "🔨 Building fuel-ingestor..."
 	docker compose -f $(COMPOSE_FILE) build fuel-ingestor
 
+clean:
+	@echo "🧹 Cleaning up unused Docker resources..."
+	docker system prune -f
+
+seminuke:
+	@echo "💥 Semi-nuking containers and volumes..."
+	docker compose -f $(COMPOSE_FILE) down -v --remove-orphans
+
 # Completely nuke everything (containers + volumes + images)
 nuke:
 	@echo "💣 Nuking all containers, volumes, and images..."
