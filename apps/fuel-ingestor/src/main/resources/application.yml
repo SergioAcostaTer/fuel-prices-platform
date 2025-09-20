@@ -1,0 +1,44 @@
+spring:
+  application.name: fuel-ingestor
+  threads.virtual.enabled: true
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost:9092}
+    client-id: ${KAFKA_CLIENT_ID:fuel-ingestor}
+    properties:
+      # SASL/TLS configurable by envs below (optional)
+      security.protocol: ${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}
+      sasl.mechanism: ${KAFKA_SASL_MECHANISM:}
+      sasl.jaas.config: ${KAFKA_SASL_JAAS:}
+    producer:
+      acks: all
+      properties:
+        enable.idempotence: true
+        compression.type: ${KAFKA_COMPRESSION:zstd}
+        linger.ms: ${KAFKA_LINGER_MS:20}
+        delivery.timeout.ms: ${KAFKA_DELIVERY_TIMEOUT_MS:60000}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+management:
+  endpoints.web.exposure.include: health,info,metrics,prometheus
+  server.port: ${MANAGEMENT_PORT:8081}
+
+ingestor:
+  source:
+    base-url: ${SOURCE_BASE_URL:https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/}
+    timeout-ms: ${SOURCE_TIMEOUT_MS:10000}
+    user-agent: ${SOURCE_USER_AGENT:fuel-ingestor/1.0}
+    api-key: ${SOURCE_API_KEY:}
+  schedule:
+    cron: ${INGEST_CRON:0 */5 * * * *}
+  topics:
+    prices-raw: ${TOPIC_PRICES_RAW:prices.raw}
+    stations-raw: ${TOPIC_STATIONS_RAW:stations.raw}
+    dlq: ${TOPIC_DLQ:prices.dlq}
+  limits:
+    max-batch: ${INGEST_MAX_BATCH:5000}
+
+logging:
+  level:
+    root: ${LOG_LEVEL:INFO}
