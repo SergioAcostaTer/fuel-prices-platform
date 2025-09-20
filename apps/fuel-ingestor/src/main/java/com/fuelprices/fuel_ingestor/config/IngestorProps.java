@@ -1,31 +1,38 @@
 package com.fuelprices.fuel_ingestor.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
 @ConfigurationProperties(prefix = "ingestor")
-public class IngestorProps {
-  public Source source = new Source();
-  public Schedule schedule = new Schedule();
-  public Topics topics = new Topics();
-  public Limits limits = new Limits();
-
-  public static class Source {
-    public String baseUrl;
-    public int timeoutMs;
-    public String userAgent;
+@Validated
+public record IngestorProps(
+    @Valid Source source,
+    @Valid Schedule schedule,
+    @Valid Topics topics,
+    @Valid Limits limits) {
+  public record Source(
+      @NotBlank String baseUrl,
+      @Positive Integer timeoutMs,
+      @NotBlank String userAgent,
+      @Positive Integer maxSizeInMb,
+      String apiKey) {
   }
 
-  public static class Schedule {
-    public String cron;
+  public record Schedule(
+      @NotBlank String cron) {
   }
 
-  public static class Topics {
-    public String pricesRaw;
-    public String stationsRaw;
-    public String dlq;
+  public record Topics(
+      @NotBlank String pricesRaw,
+      @NotBlank String stationsRaw,
+      @NotBlank String dlq) {
   }
 
-  public static class Limits {
-    public int maxBatch;
+  public record Limits(
+      @Positive Integer maxBatch) {
   }
 }

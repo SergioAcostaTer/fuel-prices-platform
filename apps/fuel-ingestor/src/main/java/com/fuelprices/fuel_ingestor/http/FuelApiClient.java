@@ -5,6 +5,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.fuelprices.fuel_ingestor.model.external.response.FuelApiResponse;
+
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
@@ -15,10 +17,11 @@ public class FuelApiClient {
   @Qualifier("fuelWebClient")
   private final WebClient client;
 
-  public Mono<String> fetchRaw() {
+  public Mono<FuelApiResponse> fetchRaw() {
     return client.get()
-        .accept(MediaType.ALL)
+        .uri("/")
+        .accept(MediaType.APPLICATION_JSON)
         .retrieve()
-        .bodyToMono(String.class);
+        .bodyToMono(FuelApiResponse.class);
   }
 }
