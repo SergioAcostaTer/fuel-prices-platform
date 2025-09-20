@@ -40,7 +40,7 @@ ingestor:
     api-key: ${SOURCE_API_KEY:}
     max-size-in-mb: ${SOURCE_MAX_SIZE_MB:100}
   schedule:
-    cron: ${INGEST_CRON:0 */5 * * * *}
+    cron: ${INGEST_CRON:0 */1 * * * *}
   topics:
     prices-raw: ${TOPIC_PRICES_RAW:prices.raw}
     stations-raw: ${TOPIC_STATIONS_RAW:stations.raw}
