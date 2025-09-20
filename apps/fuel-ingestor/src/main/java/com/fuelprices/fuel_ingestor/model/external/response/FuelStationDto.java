@@ -1,132 +1,134 @@
 package com.fuelprices.fuel_ingestor.model.external.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FuelStationDto {
 
-  @JsonProperty("C.P.")
+  @JsonAlias("C.P.")
   private String postalCode;
 
-  @JsonProperty("Dirección")
+  @JsonAlias("Dirección")
   private String address;
 
-  @JsonProperty("Horario")
+  @JsonAlias("Horario")
   private String schedule;
 
-  @JsonProperty("Latitud")
+  @JsonAlias("Latitud")
   private String latitude;
 
-  @JsonProperty("Localidad")
+  @JsonAlias("Localidad")
   private String locality;
 
-  @JsonProperty("Longitud (WGS84)")
+  @JsonAlias("Longitud (WGS84)")
   private String longitude;
 
-  @JsonProperty("Margen")
+  @JsonAlias("Margen")
   private String side;
 
-  @JsonProperty("Municipio")
+  @JsonAlias("Municipio")
   private String municipality;
 
-  @JsonProperty("Precio Adblue")
+  @JsonAlias("Precio Adblue")
   private String priceAdblue;
 
-  @JsonProperty("Precio Amoniaco")
+  @JsonAlias("Precio Amoniaco")
   private String priceAmmonia;
 
-  @JsonProperty("Precio Biodiesel")
+  @JsonAlias("Precio Biodiesel")
   private String priceBiodiesel;
 
-  @JsonProperty("Precio Bioetanol")
+  @JsonAlias("Precio Bioetanol")
   private String priceBioethanol;
 
-  @JsonProperty("Precio Biogas Natural Comprimido")
+  @JsonAlias("Precio Biogas Natural Comprimido")
   private String priceBioCng;
 
-  @JsonProperty("Precio Biogas Natural Licuado")
+  @JsonAlias("Precio Biogas Natural Licuado")
   private String priceBioLng;
 
-  @JsonProperty("Precio Diésel Renovable")
+  @JsonAlias("Precio Diésel Renovable")
   private String priceRenewableDiesel;
 
-  @JsonProperty("Precio Gas Natural Comprimido")
+  @JsonAlias("Precio Gas Natural Comprimido")
   private String priceCng;
 
-  @JsonProperty("Precio Gas Natural Licuado")
+  @JsonAlias("Precio Gas Natural Licuado")
   private String priceLng;
 
-  @JsonProperty("Precio Gases licuados del petróleo")
+  @JsonAlias("Precio Gases licuados del petróleo")
   private String priceLpg;
 
-  @JsonProperty("Precio Gasoleo A")
+  @JsonAlias("Precio Gasoleo A")
   private String priceDieselA;
 
-  @JsonProperty("Precio Gasoleo B")
+  @JsonAlias("Precio Gasoleo B")
   private String priceDieselB;
 
-  @JsonProperty("Precio Gasoleo Premium")
+  @JsonAlias("Precio Gasoleo Premium")
   private String priceDieselPremium;
 
-  @JsonProperty("Precio Gasolina 95 E10")
+  @JsonAlias("Precio Gasolina 95 E10")
   private String priceGas95E10;
 
-  @JsonProperty("Precio Gasolina 95 E25")
+  @JsonAlias("Precio Gasolina 95 E25")
   private String priceGas95E25;
 
-  @JsonProperty("Precio Gasolina 95 E5")
+  @JsonAlias("Precio Gasolina 95 E5")
   private String priceGas95E5;
 
-  @JsonProperty("Precio Gasolina 95 E5 Premium")
+  @JsonAlias("Precio Gasolina 95 E5 Premium")
   private String priceGas95E5Premium;
 
-  @JsonProperty("Precio Gasolina 95 E85")
+  @JsonAlias("Precio Gasolina 95 E85")
   private String priceGas95E85;
 
-  @JsonProperty("Precio Gasolina 98 E10")
+  @JsonAlias("Precio Gasolina 98 E10")
   private String priceGas98E10;
 
-  @JsonProperty("Precio Gasolina 98 E5")
+  @JsonAlias("Precio Gasolina 98 E5")
   private String priceGas98E5;
 
-  @JsonProperty("Precio Gasolina Renovable")
+  @JsonAlias("Precio Gasolina Renovable")
   private String priceRenewableGasoline;
 
-  @JsonProperty("Precio Hidrogeno")
+  @JsonAlias("Precio Hidrogeno")
   private String priceHydrogen;
 
-  @JsonProperty("Precio Metanol")
+  @JsonAlias("Precio Metanol")
   private String priceMethanol;
 
-  @JsonProperty("Provincia")
+  @JsonAlias("Provincia")
   private String province;
 
-  @JsonProperty("Remisión")
+  @JsonAlias("Remisión")
   private String remission;
 
-  @JsonProperty("Rótulo")
+  @JsonAlias("Rótulo")
   private String brand;
 
-  @JsonProperty("Tipo Venta")
+  @JsonAlias("Tipo Venta")
   private String saleType;
 
-  @JsonProperty("% BioEtanol")
+  @JsonAlias("% BioEtanol")
   private String percentBioethanol;
 
-  @JsonProperty("% Éster metílico")
+  @JsonAlias("% Éster metílico")
   private String percentEsterMetilico;
 
-  @JsonProperty("IDEESS")
+  @JsonAlias("IDEESS")
   private String stationId;
 
-  @JsonProperty("IDMunicipio")
+  @JsonAlias("IDMunicipio")
   private String municipalityId;
 
-  @JsonProperty("IDProvincia")
+  @JsonAlias("IDProvincia")
   private String provinceId;
 
-  @JsonProperty("IDCCAA")
+  @JsonAlias("IDCCAA")
   private String regionId;
 }

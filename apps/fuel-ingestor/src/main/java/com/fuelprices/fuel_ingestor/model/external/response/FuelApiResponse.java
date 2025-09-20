@@ -2,22 +2,24 @@ package com.fuelprices.fuel_ingestor.model.external.response;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FuelApiResponse {
 
-  @JsonProperty("Fecha")
+  @JsonAlias("Fecha")
   private String timestamp;
 
-  @JsonProperty("ListaEESSPrecio")
+  @JsonAlias("ListaEESSPrecio")
   private List<FuelStationDto> stations;
 
-  @JsonProperty("Nota")
+  @JsonAlias("Nota")
   private String note;
 
-  @JsonProperty("ResultadoConsulta")
+  @JsonAlias("ResultadoConsulta")
   private String result;
 }
