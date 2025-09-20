@@ -37,9 +37,7 @@ public final class StationEventsMapper {
   public static StationEvent toStationEvent(
       FuelStationDto s,
       OffsetDateTime sourceTs,
-      OffsetDateTime ingestedAt,
-      String sourceNote,
-      String sourceResult) {
+      OffsetDateTime ingestedAt) {
 
     return StationEvent.builder()
         .stationId(s.getStationId())
@@ -62,17 +60,13 @@ public final class StationEventsMapper {
         .longitude(parseCoord(s.getLongitude()))
         .sourceTs(sourceTs)
         .ingestedAt(ingestedAt)
-        .sourceNote(sourceNote)
-        .sourceResult(sourceResult)
         .build();
   }
 
   public static StationPricesEvent toStationPricesEvent(
       FuelStationDto s,
       OffsetDateTime sourceTs,
-      OffsetDateTime ingestedAt,
-      String sourceNote,
-      String sourceResult) {
+      OffsetDateTime ingestedAt) {
 
     Map<String, String> raw = new LinkedHashMap<>();
     Map<String, BigDecimal> num = new LinkedHashMap<>();
@@ -112,8 +106,6 @@ public final class StationEventsMapper {
         .longitude(parseCoord(s.getLongitude()))
         .sourceTs(sourceTs)
         .ingestedAt(ingestedAt)
-        .sourceNote(sourceNote)
-        .sourceResult(sourceResult)
         .build();
   }
 

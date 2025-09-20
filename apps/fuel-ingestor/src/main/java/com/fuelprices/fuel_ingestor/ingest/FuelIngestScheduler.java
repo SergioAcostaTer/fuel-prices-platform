@@ -29,12 +29,10 @@ public class FuelIngestScheduler {
         .doOnNext(resp -> {
           var sourceTs = resp.getParsedTimestamp();
           var now = OffsetDateTime.now();
-          var note = resp.getNote();
-          var result = resp.getResult();
 
           resp.getStations().forEach(s -> {
-            var stationEv = StationEventsMapper.toStationEvent(s, sourceTs, now, note, result);
-            var pricesEv = StationEventsMapper.toStationPricesEvent(s, sourceTs, now, note, result);
+            var stationEv = StationEventsMapper.toStationEvent(s, sourceTs, now);
+            var pricesEv = StationEventsMapper.toStationPricesEvent(s, sourceTs, now);
 
             String key = s.getStationId();
             stationTpl.send(props.topics().stationsRaw(), key, stationEv);

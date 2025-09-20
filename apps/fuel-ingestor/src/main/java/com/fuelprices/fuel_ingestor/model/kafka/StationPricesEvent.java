@@ -30,6 +30,4 @@ public class StationPricesEvent {
 
   private OffsetDateTime sourceTs;
   private OffsetDateTime ingestedAt;
-  private String sourceNote;
-  private String sourceResult;
 }
