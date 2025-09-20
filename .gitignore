@@ -38,6 +38,7 @@ spring.log
 *.pid
 
 ### VS Code ###
+.vscode/
 .history/
 .project
 .classpath

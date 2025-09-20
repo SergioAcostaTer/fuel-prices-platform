@@ -23,6 +23,9 @@ management:
   endpoints.web.exposure.include: health,info,metrics,prometheus
   server.port: ${MANAGEMENT_PORT:8081}
 
+server:
+  port: ${SERVER_PORT:8081}
+
 ingestor:
   source:
     base-url: ${SOURCE_BASE_URL:https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/}
