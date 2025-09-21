@@ -1,4 +1,4 @@
-package com.marketsinker.market_sinker;
+package com.fuelprices.market_sinker;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;

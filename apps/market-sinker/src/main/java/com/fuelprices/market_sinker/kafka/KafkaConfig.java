@@ -1,8 +1,7 @@
 package com.fuelprices.market_sinker.kafka;
 
-import java.util.Map;
+import java.util.HashMap;
 
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.boot.autoconfigure.kafka.DefaultKafkaConsumerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
@@ -18,35 +17,55 @@ import com.fuelprices.market_sinker.model.StationPricesEvent;
 @Configuration
 public class KafkaConfig {
 
+  /**
+   * Keep your global JSON settings: trust all and don't use type headers.
+   * This augments the auto-configured ConsumerFactory with these props.
+   */
   @Bean
   DefaultKafkaConsumerFactoryCustomizer trustAll() {
-    return cf -> cf.updateConfigs(Map.of(
+    return cf -> cf.updateConfigs(java.util.Map.of(
         JsonDeserializer.TRUSTED_PACKAGES, "*",
         JsonDeserializer.USE_TYPE_INFO_HEADERS, false));
   }
 
-  @Bean
+  /**
+   * StationEvent listener factory.
+   * Clones the auto-configured ConsumerFactory properties (so we keep
+   * bootstrap servers, group-id, etc.) and only swaps the value deserializer.
+   */
+  @Bean(name = "stationKafkaFactory")
   public ConcurrentKafkaListenerContainerFactory<String, StationEvent> stationKafkaFactory(
-      ConsumerFactory<String, StationEvent> cf) {
-    var factory = new ConcurrentKafkaListenerContainerFactory<String, StationEvent>();
-    factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(
-        Map.of(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class,
-            ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class),
+      ConsumerFactory<String, Object> baseFactory) {
+
+    var cfg = new HashMap<>(baseFactory.getConfigurationProperties());
+
+    var typedFactory = new DefaultKafkaConsumerFactory<>(
+        cfg,
         new StringDeserializer(),
-        new JsonDeserializer<>(StationEvent.class, false)));
+        new JsonDeserializer<>(StationEvent.class, false));
+
+    var factory = new ConcurrentKafkaListenerContainerFactory<String, StationEvent>();
+    factory.setConsumerFactory(typedFactory);
     factory.setConcurrency(2);
     return factory;
   }
 
-  @Bean
+  /**
+   * StationPricesEvent listener factory.
+   */
+  @Bean(name = "pricesKafkaFactory")
   public ConcurrentKafkaListenerContainerFactory<String, StationPricesEvent> pricesKafkaFactory(
-      ConsumerFactory<String, StationPricesEvent> cf) {
-    var factory = new ConcurrentKafkaListenerContainerFactory<String, StationPricesEvent>();
-    factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(
-        Map.of(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class,
-            ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class),
+      ConsumerFactory<String, Object> baseFactory) {
+
+    var cfg = new HashMap<>(baseFactory.getConfigurationProperties());
+
+    var typedFactory = new DefaultKafkaConsumerFactory<>(
+        cfg,
         new StringDeserializer(),
-        new JsonDeserializer<>(StationPricesEvent.class, false)));
+        new JsonDeserializer<>(StationPricesEvent.class, false));
+
+    var factory = new ConcurrentKafkaListenerContainerFactory<String, StationPricesEvent>();
+    factory.setConsumerFactory(typedFactory);
     factory.setConcurrency(2);
     return factory;
   }
