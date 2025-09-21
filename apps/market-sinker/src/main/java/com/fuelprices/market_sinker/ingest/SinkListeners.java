@@ -18,7 +18,7 @@ public class SinkListeners {
 
   private final SinkRepository repo;
 
-  @KafkaListener(topics = "${topicProps.stations}", containerFactory = "stationsKafkaFactory")
+  @KafkaListener(topics = "${topics.stations}", containerFactory = "stationKafkaFactory")
   public void stationSink(@Payload StationEvent ev) {
     try {
       repo.upsertStationLatest(ev);
@@ -28,7 +28,7 @@ public class SinkListeners {
     }
   }
 
-  @KafkaListener(topics = "${topicProps.prices}", containerFactory = "pricesKafkaFactory")
+  @KafkaListener(topics = "${topics.prices}", containerFactory = "pricesKafkaFactory")
   public void pricesSink(@Payload StationPricesEvent ev) {
     try {
       repo.insertPrices(ev);
