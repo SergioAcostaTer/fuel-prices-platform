@@ -108,7 +108,7 @@ services:
       SPRING_DATASOURCE_USERNAME: fuel
       SPRING_DATASOURCE_PASSWORD: fuel
       KAFKA_BOOTSTRAP: kafka:9092
-      KAFKA_GROUP_ID: market-sinker
+      KAFKA_GROUP_ID: market-sinker-reprocess
       KAFKA_PRICES_TOPIC: prices.raw
       KAFKA_STATIONS_TOPIC: stations.raw
       LOG_LEVEL: INFO
