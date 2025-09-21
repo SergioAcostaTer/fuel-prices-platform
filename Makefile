@@ -12,7 +12,7 @@ down:
 
 restart:
 	@echo "🔄 Restarting fuel-ingestor..."
-	docker compose -f $(COMPOSE_FILE) restart fuel-ingestor
+	docker compose -f $(COMPOSE_FILE) restart fuel-ingestor market-sinker
 
 reset:
 	@echo "🔄 Resetting fuel-ingestor..."
@@ -25,7 +25,7 @@ logs:
 
 build:
 	@echo "🔨 Building fuel-ingestor..."
-	docker compose -f $(COMPOSE_FILE) build fuel-ingestor
+	docker compose -f $(COMPOSE_FILE) build fuel-ingestor market-sinker
 
 clean:
 	@echo "🧹 Cleaning up unused Docker resources..."
