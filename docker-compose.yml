@@ -93,6 +93,48 @@ services:
     ports:
       - "8081:8081"
 
+  market-sinker:
+    build:
+      context: .
+      dockerfile: apps/market-sinker/Dockerfile
+    container_name: market-sinker
+    depends_on:
+      kafka:
+        condition: service_healthy
+      timescaledb:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://timescaledb:5432/fuel
+      SPRING_DATASOURCE_USERNAME: fuel
+      SPRING_DATASOURCE_PASSWORD: fuel
+      KAFKA_BOOTSTRAP: kafka:9092
+      KAFKA_GROUP_ID: market-sinker
+      KAFKA_PRICES_TOPIC: prices.raw
+      KAFKA_STATIONS_TOPIC: stations.raw
+      LOG_LEVEL: INFO
+    restart: unless-stopped
+
+  timescaledb:
+    image: timescale/timescaledb:2.15.2-pg16
+    container_name: timescaledb
+    environment:
+      POSTGRES_DB: fuel
+      POSTGRES_USER: fuel
+      POSTGRES_PASSWORD: fuel
+      TS_TUNE_MAX_CONNS: "100"
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - tsdb-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL","pg_isready -U fuel -d fuel"]
+      interval: 5s
+      timeout: 5s
+      retries: 40
+
+
 volumes:
   kafka-data:
   gradle-cache:
+  tsdb-data:

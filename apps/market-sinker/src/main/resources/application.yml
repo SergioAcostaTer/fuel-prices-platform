@@ -1,0 +1,33 @@
+spring:
+  application.name: market-sinker
+  threads.virtual.enabled: true
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/fuel}
+    username: ${SPRING_DATASOURCE_USERNAME:fuel}
+    password: ${SPRING_DATASOURCE_PASSWORD:fuel}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 10000
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost:9092}
+    consumer:
+      group-id: ${KAFKA_GROUP_ID:market-sinker}
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.json.use.type.headers: false
+management:
+  endpoints.web.exposure.include: health,info,metrics,prometheus
+server:
+  port: 8090
+
+topics:
+  prices: ${KAFKA_PRICES_TOPIC:prices.raw}
+  stations: ${KAFKA_STATIONS_TOPIC:stations.raw}
+
+logging:
+  level:
+    root: ${LOG_LEVEL:INFO}
